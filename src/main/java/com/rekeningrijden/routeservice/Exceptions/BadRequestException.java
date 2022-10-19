@@ -1,4 +1,4 @@
-package com.rekeningrijden.routeservice.exceptions;
+package com.rekeningrijden.routeservice.Exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
