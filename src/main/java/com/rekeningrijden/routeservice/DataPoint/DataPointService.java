@@ -19,4 +19,8 @@ public class DataPointService {
     {
         return dataPointRepository.findByVehicleId(vehicleId);
     }
+    public List<DataPoint> getDatapointByVehicleIdAndRouteId(int vehicleId, String routeId)
+    {
+        return dataPointRepository.findByVehicleIdAndRouteId(vehicleId, routeId);
+    }
 }

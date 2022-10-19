@@ -7,4 +7,5 @@ import java.util.List;
 public interface DataPointRepository extends JpaRepository<DataPoint, Long> {
 
     List<DataPoint> findByVehicleId(int vehicleId);
+    List<DataPoint> findByVehicleIdAndRouteId(int vehicleId, String routeId);
 }
