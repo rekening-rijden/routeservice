@@ -1,5 +1,6 @@
 package com.rekeningrijden.routeservice;
 
+import com.rekeningrijden.routeservice.DTO.RouteDTO;
 import com.rekeningrijden.routeservice.DataPoint.DataPoint;
 import com.rekeningrijden.routeservice.DataPoint.DataPointService;
 import com.rekeningrijden.routeservice.Exceptions.NotFoundException;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 
 @RestController

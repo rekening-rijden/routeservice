@@ -1,4 +1,4 @@
-package com.rekeningrijden.routeservice;
+package com.rekeningrijden.routeservice.DTO;
 
 import com.rekeningrijden.routeservice.DataPoint.DataPoint;
 
