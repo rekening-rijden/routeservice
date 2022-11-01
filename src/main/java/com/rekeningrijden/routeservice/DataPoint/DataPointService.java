@@ -23,4 +23,10 @@ public class DataPointService {
     {
         return dataPointRepository.findByVehicleIdAndRouteId(vehicleId, routeId);
     }
+    public List<DataPoint> getAll()
+    {
+        return dataPointRepository.findAll();
+    }
+
+
 }

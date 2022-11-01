@@ -36,4 +36,16 @@ public class RouteController {
         }
         else throw new NotFoundException("No datapoints found");
     }
+
+    @GetMapping("/car/{vehicleId}")
+    public ResponseEntity<?> getRouteByCarId(@PathVariable int vehicleId)
+    {
+        List<DataPoint> dataPointList = dataPointService.getDatapointByVehicleId(vehicleId);
+        if(dataPointList.size() > 0)
+        {
+            double distance = new DistanceCalculator(dataPointList).totalDistance();
+            return new ResponseEntity<>(new RouteDTO(dataPointList, dataPointList.get(0).getTimestamp(), dataPointList.get(dataPointList.size()-1).getTimestamp(), distance), HttpStatus.OK);
+        }
+        else throw new NotFoundException("No datapoints found");
+    }
 }

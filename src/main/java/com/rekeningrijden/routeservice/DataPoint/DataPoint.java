@@ -1,35 +1,35 @@
 package com.rekeningrijden.routeservice.DataPoint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
 
-import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 @Data
-@Entity
 @Table
 @AllArgsConstructor
 @NoArgsConstructor
 public class DataPoint {
 
-    @Id
     @JsonIgnore
     private int id;
     @JsonIgnore
     private String routeId;
-
     @JsonIgnore
+    @PrimaryKeyColumn(name = "vehicleId", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private int vehicleId;
     @JsonIgnore
-    private Date timestamp;
+    @PrimaryKeyColumn(name = "timestamp", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
+    private String timestamp;
     private double lat;
     private double lng;
-
-    public int getId() {
-        return id;
-    }
 
     public String getRouteId() {
         return routeId;
@@ -43,12 +43,23 @@ public class DataPoint {
         this.vehicleId = vehicleId;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getTimestamp(){
+
+        try{
+            SimpleDateFormat SDFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date _timestamp = SDFormat.parse(timestamp);
+            return _timestamp;
+        }
+        catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String strDate = dateFormat.format(timestamp);
+        this.timestamp = strDate;
     }
 
     public double getLat() {
