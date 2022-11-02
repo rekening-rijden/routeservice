@@ -25,10 +25,10 @@ public class RouteController {
 
     public RouteController(DataPointService dataPointService) {this.dataPointService = dataPointService;}
 
-    @GetMapping("/{vehicleId}/{routeId}")
-    public ResponseEntity<?> getRouteByCarIdAndRouteId(@PathVariable int vehicleId, @PathVariable String routeId)
+    @GetMapping("/{routeId}")
+    public ResponseEntity<?> getRouteByCarIdAndRouteId(@PathVariable String routeId)
     {
-        List<DataPoint> dataPointList = dataPointService.getDatapointByVehicleIdAndRouteId(vehicleId, routeId);
+        List<DataPoint> dataPointList = dataPointService.getDatapointByRouteId(routeId);
         if(dataPointList.size() > 0)
         {
             double distance = new DistanceCalculator(dataPointList).totalDistance();

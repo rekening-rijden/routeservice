@@ -20,9 +20,9 @@ public class DataPointService {
     {
         return dataPointRepository.findByVehicleId(vehicleId);
     }
-    public List<DataPoint> getDatapointByVehicleIdAndRouteId(int vehicleId, String routeId)
+    public List<DataPoint> getDatapointByRouteId(String routeId)
     {
-        return dataPointRepository.findByVehicleIdAndRouteId(vehicleId, routeId);
+        return dataPointRepository.findByRouteId(routeId);
     }
 
     public List<DataPoint> getDistinctRouteByVehicleId(int vehicleId)

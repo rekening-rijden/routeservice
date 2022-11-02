@@ -15,9 +15,10 @@ import java.util.UUID;
 public class DataPoint {
 
     @Id
+    @JsonIgnore
     private int id;
     private String routeId;
-
+    @JsonIgnore
     private int vehicleId;
     private Date timestamp;
     private double lat;
