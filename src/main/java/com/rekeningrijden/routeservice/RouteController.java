@@ -5,6 +5,7 @@ import com.rekeningrijden.routeservice.DTO.RouteListDTO;
 import com.rekeningrijden.routeservice.DataPoint.DataPoint;
 import com.rekeningrijden.routeservice.DataPoint.DataPointService;
 import com.rekeningrijden.routeservice.Exceptions.NotFoundException;
+import com.rekeningrijden.routeservice.models.Coordinate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,5 +66,15 @@ public class RouteController {
             }
         }
         return routeListDTOList;
+    }
+
+    @GetMapping("/coordinates/{routeId}")
+    public List<Coordinate> getCoordsByRouteId(@PathVariable String routeId) {
+        List<Coordinate> coordinates = new ArrayList<>();
+        List<DataPoint> dataPoints = dataPointService.getDatapointByRouteId(routeId);
+        for (DataPoint dp : dataPoints) {
+            coordinates.add(new Coordinate(dp.getLat(), dp.getLng()));
+        }
+        return coordinates;
     }
 }
