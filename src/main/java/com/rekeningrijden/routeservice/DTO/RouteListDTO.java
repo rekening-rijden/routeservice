@@ -5,29 +5,20 @@ import com.rekeningrijden.routeservice.DataPoint.DataPoint;
 import java.util.Date;
 import java.util.List;
 
-public class RouteDTO {
-    private List<DataPoint> coords;
+public class RouteListDTO {
+    private String routeId;
     private Date startTime;
     private Date endTime;
-    private double distance;
 
-    public RouteDTO(List<DataPoint> coords, Date startTime, Date endTime, double distance) {
-        this.coords = coords;
+
+    public RouteListDTO(String routeId, Date startTime, Date endTime) {
+        this.routeId = routeId;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.distance = distance;
     }
 
-    public RouteDTO() {
+    public RouteListDTO() {
 
-    }
-
-    public List<DataPoint> getCoords() {
-        return coords;
-    }
-
-    public void setCoords(List<DataPoint> coords) {
-        this.coords = coords;
     }
 
     public Date getStartTime() {
@@ -45,12 +36,10 @@ public class RouteDTO {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
-
-    public double getDistance() {
-        return distance;
+    public void setRouteId(String routeId) {
+        this.routeId = routeId;
     }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
+    public String getRouteId() {
+        return routeId;
     }
 }

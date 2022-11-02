@@ -1,20 +1,22 @@
 package com.rekeningrijden.routeservice;
 
 import com.rekeningrijden.routeservice.DTO.RouteDTO;
+import com.rekeningrijden.routeservice.DTO.RouteListDTO;
 import com.rekeningrijden.routeservice.DataPoint.DataPoint;
 import com.rekeningrijden.routeservice.DataPoint.DataPointService;
 import com.rekeningrijden.routeservice.Exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/route")
 
 public class RouteController {
@@ -22,7 +24,6 @@ public class RouteController {
     private final DataPointService dataPointService;
 
     @Autowired
-
     public RouteController(DataPointService dataPointService) {this.dataPointService = dataPointService;}
 
     @GetMapping("/{routeId}")
@@ -47,5 +48,22 @@ public class RouteController {
             return routeList;
         }
         else throw new NotFoundException("No datapoints found");
+    }
+
+    @GetMapping("/vehicleid/{vehicleId}")
+    public List<RouteListDTO> getRouteListByVehicleId(@PathVariable int vehicleId) {
+        List<DataPoint> routeList = dataPointService.getDistinctRouteByVehicleId(vehicleId);
+        List<RouteListDTO> routeListDTOList = new ArrayList<>();
+
+        // TODO: Convert raw data to DTO
+        for (int i = 0; i < routeList.size(); i++) {
+            if (i % 2 == 0) {
+                String routeId = routeList.get(i).getRouteId();
+                Date startTime = routeList.get(i).getTimestamp();
+                Date endTime = routeList.get(i + 1).getTimestamp();
+                routeListDTOList.add(new RouteListDTO(routeId, startTime, endTime));
+            }
+        }
+        return routeListDTOList;
     }
 }
