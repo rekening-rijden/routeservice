@@ -36,4 +36,16 @@ public class RouteController {
         }
         else throw new NotFoundException("No datapoints found");
     }
+
+    @GetMapping("/routes/{vehicleId}")
+    public List<DataPoint> getDistinctRouteByVehicleId(@PathVariable int vehicleId)
+    {
+        List<DataPoint> routeList = dataPointService.getDistinctRouteByVehicleId(vehicleId);
+
+        if(routeList.size() > 0)
+        {
+            return routeList;
+        }
+        else throw new NotFoundException("No datapoints found");
+    }
 }
