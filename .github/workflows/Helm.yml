@@ -17,6 +17,6 @@ jobs:
           namespace: 'default'
           chart: 'app'
           token: '${{ github.token }}'
-          value-files: "values.yaml"
+          value-files: "./helm/values.yaml"
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
