@@ -34,4 +34,4 @@ jobs:
         with:
           context: .
           push: true
-          tags:
+          tags: lucjans26/rekeningrijden-routeservice:latest

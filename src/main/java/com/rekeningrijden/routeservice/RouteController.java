@@ -25,14 +25,26 @@ public class RouteController {
 
     public RouteController(DataPointService dataPointService) {this.dataPointService = dataPointService;}
 
-    @GetMapping("/{vehicleId}/{routeId}")
-    public ResponseEntity<?> getRouteByCarIdAndRouteId(@PathVariable int vehicleId, @PathVariable String routeId)
+    @GetMapping("/{routeId}")
+    public ResponseEntity<?> getRouteByCarIdAndRouteId(@PathVariable String routeId)
     {
-        List<DataPoint> dataPointList = dataPointService.getDatapointByVehicleIdAndRouteId(vehicleId, routeId);
+        List<DataPoint> dataPointList = dataPointService.getDatapointByRouteId(routeId);
         if(dataPointList.size() > 0)
         {
             double distance = new DistanceCalculator(dataPointList).totalDistance();
             return new ResponseEntity<>(new RouteDTO(dataPointList, dataPointList.get(0).getTimestamp(), dataPointList.get(dataPointList.size()-1).getTimestamp(), distance), HttpStatus.OK);
+        }
+        else throw new NotFoundException("No datapoints found");
+    }
+
+    @GetMapping("/routes/{vehicleId}")
+    public List<DataPoint> getDistinctRouteByVehicleId(@PathVariable int vehicleId)
+    {
+        List<DataPoint> routeList = dataPointService.getDistinctRouteByVehicleId(vehicleId);
+
+        if(routeList.size() > 0)
+        {
+            return routeList;
         }
         else throw new NotFoundException("No datapoints found");
     }

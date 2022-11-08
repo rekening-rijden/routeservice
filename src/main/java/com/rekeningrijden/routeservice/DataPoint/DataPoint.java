@@ -17,12 +17,9 @@ public class DataPoint {
     @Id
     @JsonIgnore
     private int id;
-    @JsonIgnore
     private String routeId;
-
     @JsonIgnore
     private int vehicleId;
-    @JsonIgnore
     private Date timestamp;
     private double lat;
     private double lng;
