@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: 'Deploy'
-        uses: glopezep/helm@v1.7.1
+        uses: lucjans26/helm@v1.7.2
         with:
           release: 'nginx'
           namespace: 'default'
