@@ -1,4 +1,4 @@
-#Builds the cocker image
+#Builds the cocker image and push to dockerhub and azure registry
 
 on:
   push:
@@ -35,3 +35,16 @@ jobs:
           context: .
           push: true
           tags: lucjans26/rekeningrijden-routeservice:latest
+
+     - name: Log into registry
+       uses: docker/login-action@v1
+       with:
+         registry: ${{ secrets.ACR_ENDPOINT }}
+         username: ${{ secrets.ACR_USERNAME }}
+         password: ${{ secrets.ACR_PASSWORD }}
+     - name: Build & Push
+       uses: docker/build-push-action@v2
+       with:
+         push: true
+         tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:latest
+
