@@ -11,16 +11,12 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: 'Deploy'
-        uses: 'deliverybot/helm@v1'
+        uses: lucjans26/helm@v1.7.2
         with:
           release: 'nginx'
           namespace: 'default'
           chart: 'app'
           token: '${{ github.token }}'
-          values: |
-            name: foobar
-          value-files: >-
-            values.yaml,
-            values.production.yaml
+          value-files: "./helm/values.yaml"
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
