@@ -9,7 +9,7 @@ variables:
   dockerRegistryServiceConnection: 'f856a5ab-03c3-45b5-aada-5a329df4e5bc'
   imageRepository: 'route-service'
   containerRegistry: 'rekeningrijden.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
+  dockerfilePath: '**/dockerfile'
   tag: 'latest'
 
   # Artifact variables
