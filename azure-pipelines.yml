@@ -16,7 +16,17 @@ variables:
   artifactName: 'route-service'
 
 steps:
+- task: DockerInstaller@0
+  displayName: Install Docker Agent
+  inputs:
+    dockerVersion: 17.09.0-ce
 
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '17'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+    
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
@@ -26,11 +36,6 @@ steps:
     mavenAuthenticateFeed: false
     effectivePomSkip: false
     sonarQubeRunAnalysis: false
-
-- task: DockerInstaller@0
-  displayName: Install Docker Agent
-  inputs:
-    dockerVersion: 17.09.0-ce
 
 - task: Docker@2
   displayName: Build Docker Image and Push to Registry
