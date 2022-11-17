@@ -1,39 +1,69 @@
-# Docker
-# Build and push an image to Azure Container Registry
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
 trigger:
-- main
+- master
 
-resources:
-- repo: self
+pool:
+  vmImage: ubuntu-latest
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '0374cee4-963a-448b-8525-a9694be3785e'
-  imageRepository: 'routeservice'
+  dockerRegistryServiceConnection: 'f856a5ab-03c3-45b5-aada-5a329df4e5bc'
+  imageRepository: 'route-service'
   containerRegistry: 'rekeningrijden.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/dockerfile'
-  tag: '$(Build.BuildId)'
+  dockerfilePath: '**/dockerfile'
+  tag: 'latest'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  # Artifact variables
+  artifactName: 'route-service'
 
-stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
+steps:
+- task: DockerInstaller@0
+  displayName: Install Docker Agent
+  inputs:
+    dockerVersion: 17.09.0-ce
+
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '17'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+    
+- task: Maven@4
+  inputs:
+    mavenPomFile: 'pom.xml'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false
+
+- task: Docker@2
+  displayName: Build Docker Image and Push to Registry
+  inputs:
+    command: buildAndPush
+    repository: $(imageRepository)
+    dockerfile: $(dockerfilePath)
+    containerRegistry: $(dockerRegistryServiceConnection)
+    tags:
           $(tag)
+    buildContext: .
+
+- task: HelmInstaller@0
+  displayName: Install Helm Client
+  inputs:
+    helmVersion: '2.14.1'
+    installKubectl: true
+
+- task: HelmDeploy@0
+  displayName: Helm deploy
+  inputs:
+    namespace: 'deployment'
+    command: 'package'
+    chartPath: 'helm'
+
+- task: PublishBuildArtifacts@1
+  displayName: Public Build Artifact
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: $(artifactName)
+    publishLocation: 'Container'
