@@ -1,0 +1,15 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: push to azure devops
+        run: |
+          git remote add origin https://dev.azure.com/rekeningrijden/rekeningrijden-app/_git/routeservice
+      - name: push to azure devops
+        run: git push origin main

@@ -1,4 +1,4 @@
-#Builds the cocker image
+#Builds the cocker image and push to dockerhub and azure registry
 
 on:
   push:
@@ -32,6 +32,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ./.github/workflows
           push: true
           tags: lucjans26/rekeningrijden-routeservice:latest
+
