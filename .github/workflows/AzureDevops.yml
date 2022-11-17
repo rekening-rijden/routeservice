@@ -10,5 +10,5 @@ jobs:
     steps:
       - name: push to azure devops
         run: |
-          git push --prune https://dev.azure.com/'${{secrets.AZURE_REPO}}' \
+          git push --prune https://dev.azure.com/rekeningrijden/rekeningrijden-app/_git/routeservice \
               +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
