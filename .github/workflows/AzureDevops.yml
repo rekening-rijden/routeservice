@@ -1,0 +1,14 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - bash: |
+          git push --prune https://dev.azure.com/'${{secrets.AZURE_REPO}}' \
+              +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
+        displayName: 'Copy to devops'
