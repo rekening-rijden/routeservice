@@ -8,7 +8,9 @@ jobs:
   deployment:
     runs-on: 'ubuntu-latest'
     steps:
-      - bash: |
+      - name: push to azure devops
+        uses: actions/checkout@v2
+        bash: |
           git push --prune https://dev.azure.com/'${{secrets.AZURE_REPO}}' \
               +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
         displayName: 'Copy to devops'
