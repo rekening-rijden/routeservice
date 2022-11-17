@@ -10,5 +10,6 @@ jobs:
     steps:
       - name: push to azure devops
         run: |
-          git push --prune https://dev.azure.com/rekeningrijden/rekeningrijden-app/_git/routeservice \
-              +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
+          git remote add origin https://dev.azure.com/rekeningrijden/rekeningrijden-app/_git/routeservice
+      - name: push to azure devops
+        run: git push origin main
